@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace ServiceContract.DTO.Enums
+namespace ServiceContract.Enums
 {
     public enum GenderOptions
     {
