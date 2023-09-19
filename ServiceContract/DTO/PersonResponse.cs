@@ -57,7 +57,7 @@ namespace ServiceContract.DTO
     {
         public static PersonResponse ToPersonResponse(this Person person)
         {
-            return new PersonResponse
+            return new PersonResponse()
             {
                 PersonID = person.PersonID,
                 PersonName = person.PersonName,

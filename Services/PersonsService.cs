@@ -2,6 +2,7 @@
 using Entities;
 using ServiceContract.DTO;
 using ServiceContract;
+using Services.Helpers;
 
 namespace Services
 {
@@ -20,9 +21,9 @@ namespace Services
 
         private PersonResponse ConvertPersonToPersonResponse(Person person)
         {
-            PersonResponse personResponse = new PersonResponse();
-            personResponse.Country =
-                _countriesService.GetCountryByCountryID(person.CountryID)?.CountryName;
+            PersonResponse personResponse = person.ToPersonResponse();
+
+            personResponse.Country = _countriesService.GetCountryByCountryID(person.CountryID)?.CountryName;
 
             return personResponse;
         }
@@ -36,11 +37,15 @@ namespace Services
             }
 
             // Validate PersonName
-            if (string.IsNullOrEmpty(personAddRequest.PersonName))
-            {
-                throw new ArgumentNullException("PersonName can't be blank");
-            }
+            //if (string.IsNullOrEmpty(personAddRequest.PersonName))
+            //{
+            //    throw new ArgumentException("PersonName can not be blank");
+            //}
 
+            // Model Validations
+             ValidationHelper.ModelValidation(personAddRequest);
+
+           
             // convert personAddRequest into Person type
             Person person = personAddRequest.ToPerson();
 
@@ -59,6 +64,23 @@ namespace Services
         {
             throw new NotImplementedException();
         }
+
+        public PersonResponse? GetPersonByPersonID(Guid? personID)
+        {
+            if (personID == null)
+                return null;
+
+            Person? person = _persons.FirstOrDefault(temp => temp.PersonID == personID);
+
+            if (person == null)
+                return null;
+
+            return person.ToPersonResponse();
+        }
+
+
+
+
     }
 
 }
