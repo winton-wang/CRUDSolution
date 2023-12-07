@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Entities;
+using ServiceContract.Enums;
 
 namespace ServiceContract.DTO
 {
@@ -54,10 +55,24 @@ namespace ServiceContract.DTO
         {
             return $"Person ID : {PersonID} , Person Name: {PersonName},  " +
                    $"Email; {Email}, Date of Birth: {DateOfBirth?.ToString("dd MMM yyyy")}, Gender: {Gender}, Country ID: {CountryID}, " +
-                   $"Country: {Country}, Address: {Address}, Receive News Letters: {ReceiveNewsLetters} ";
-              
+                   $"Country: {Country}, Address: {Address}, Receive News Letters: {ReceiveNewsLetters} "; 
         }
 
+        public PersonUpdateRequest ToPersonUpdateRequest()
+        {
+            return new PersonUpdateRequest()
+            {
+                PersonID = PersonID,
+                PersonName = PersonName,
+                Email = Email,
+                DateOfBirth = DateOfBirth,
+                Gender = (GenderOptions)Enum.Parse(typeof(GenderOptions), Gender, true),
+                Address = Address,
+                CountryID = CountryID,
+                ReceiveNewsLetters = ReceiveNewsLetters
+
+            };
+        }
 
     }
 
